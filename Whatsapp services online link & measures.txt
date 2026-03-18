@@ -1,0 +1,69 @@
+WhatsApp services online link:  
+https://app.powerbi.com/view?r=eyJrIjoiZTYyN2Y1OGEtY2M5NS00YmZjLWIwYWItZWU3ZDgzNTVkZWI3IiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9
+
+
+
+WhatsApp services measures
+
+1) Apseva service revenue wise
+
+   a) Total_Departments = DISTINCTCOUNT(Apseva_ServiceRevenuewise[Department Name])
+   b) Total_Revenue from services = SUM(Apseva_ServiceRevenuewise[Total Amount])
+   c) Total_Service Requests = SUM(Apseva_ServiceRevenuewise[Total No of Requests])
+   d) Total_Services = DISTINCTCOUNT(Apseva_ServiceRevenuewise[Service Name])
+
+2) APSeva Service wise
+
+   a) Total Departments = DISTINCTCOUNT(Apseva_ServiceWise[Department])
+   b) Total requests_servicewise = sum(Apseva_ServiceWise[Total No Of Requests])
+   c) Total Services Count = count(Apseva_ServiceWise[Service Name])
+
+3) APSeva services
+ 
+   a) Apseva_Approval % = divide([APSeva_Total Approved Requests],[APSeva_Total requests])
+   b) Apseva_Rejection % = divide([APSeva_Total Rejected Requests],[APSeva_Total requests])
+   c) APSeva_Total Approved Requests = sum('Apseva Services'[Closed Beyond SLA-Approved Requests])+sum('Apseva Services'[Closed Within SLA Approved Requests])
+   d) APSeva_Total Rejected Requests = sum('Apseva Services'[Closed Beyond SLA-Rejected Requests])+sum('Apseva Services'[Closed Within SLA Rejected Requests])
+   e) APSeva_Total requests = sum('Apseva Services'[Total No Of Requests])
+
+4) Payment_inception1
+ 
+   a) Districts by revenue = 
+          VAR SD = SELECTEDVALUE(Payment_Inception1[District Name])
+              RETURN
+              IF(
+                  NOT ISBLANK(SD),
+                             CALCULATE(
+                                        SUM(Payment_Inception1[Total Amount]),
+                                        KEEPFILTERS(Payment_Inception1[District Name] = SD)
+                   )
+                 ) 
+
+    b) Districts by Service Requests = 
+             VAR SD = SELECTEDVALUE(Payment_Inception1[District Name])
+                RETURN
+                 IF(
+                    NOT ISBLANK(SD),
+                        CALCULATE(
+                                    SUM(Payment_Inception1[Total No of Requests]),
+                                    KEEPFILTERS(Payment_Inception1[District Name] = SD)
+                                  )
+                            )
+
+   c) rank by service requests = rankx(all(Payment_Inception1[District Name]),[Total Service requests], ,DESC)
+   d) Total Revenue Generated = sum(Payment_Inception1[Total Amount])
+   e) Total Revenue Reconciled = sum(Payment_Inception1[Paid Total Amount])
+   f) Total Service requests = sum(Payment_Inception1[Total No of Requests])
+   g) Total Zero Amount Requests = sum(Payment_Inception1[Zero Amount Requests])
+
+5) Whatsapp Service
+
+   a) Whatsapp Rejection % = divide([Whatsapp_Total Rejected Requests],[Whatsapp_Total requests])
+   b) Whatsapp_Approval% = divide([Whatsapp_Total Approved Requests],[Whatsapp_Total requests])
+   c) Whatsapp_Total Approved Requests = sum('Whatsapp services'[Closed Beyond SLA Requests Approved ])+ sum('Whatsapp services'[Closed Within SLA Requests Approved ])
+   d) Whatsapp_Total Rejected Requests = sum('Whatsapp services'[Closed Beyond SLA Requests Rejected ])+sum('Whatsapp services'[Closed Within SLA Requests Rejected  ])
+   e) Whatsapp_Total requests = sum('Whatsapp services'[Total No Of Requests ])
+
+6) whatsapp services department based
+    
+   a) Whatsapp_Departments = distinctcount('Whatsapp services_dept based'[Department ])
